@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>T5 ParaPhrasing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+      .container {
+        max-width: 1000px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row-sm-5 row-sm-offset-1">
+          <h4>Enter a paragraph to ParaPhrase</h4>
+            <form role="form" method='POST' action='/'>
+              <div class="form-group">
+                 <br>
+                <input type="text" name="question" class="form-control" id="url-box" placeholder="Enter a question" style="max-width: 300px;" autofocus required>
+              </div>
+              <button type="submit" class="btn btn-default">ParaPhrase</button>
+            </form>
+          <br>
+      </div>
+
+
+      <div class="row-sm-5 row-sm-offset-1 get_paraphrases">
+          {% if result %}
+          <h4>Paragraph = {{ result[1] }}</h4>
+          <h4>ParaPhrase - 1 = {{ result[0][0] }}</h4>
+          <h4>ParaPhrase - 2 = {{ result[0][1] }}</h4>
+          <h4>ParaPhrase - 3 = {{ result[0][2] }}</h4>
+          <h4>ParaPhrase - 4 = {{ result[0][3] }}</h4>
+          <h4>ParaPhrase - 5 = {{ result[0][4] }}</h4>
+          <h4>ParaPhrase - 5 = {{ result[0][4] }}</h4>
+          <h4>ParaPhrase - 6 = {{ result[0][5] }}</h4>
+          <h4>ParaPhrase - 7 = {{ result[0][6] }}</h4>
+          <h4>ParaPhrase - 8 = {{ result[0][7] }}</h4>
+          <h4>ParaPhrase - 9 = {{ result[0][8] }}</h4>
+          {% endif %}
+      </div>
+
+      <div class="row-sm-5 row-sm-offset-1 result get_paraphrases_pytorchlight" hidden>
+        {% if result1 %}
+        <h4>ParaPhrase - 10 = {{ result1[0][0] }}</h4>
+        <h4>ParaPhrase - 11 = {{ result1[0][1] }}</h4>
+        <h4>ParaPhrase - 12 = {{ result1[0][2] }}</h4>
+        <h4>ParaPhrase - 13 = {{ result1[0][3] }}</h4>
+        <h4>ParaPhrase - 14 = {{ result1[0][4] }}</h4>
+        <h4>ParaPhrase - 15 = {{ result1[0][5] }}</h4>
+        <h4>ParaPhrase - 16 = {{ result1[0][6] }}</h4>
+        <h4>ParaPhrase - 17 = {{ result1[0][7] }}</h4>
+        <h4>ParaPhrase - 18 = {{ result1[0][8] }}</h4>
+
+        {% endif %}
+    </div>
+
+      <ul class="pager">
+        <li><a href="#" class="result">Previous</a></li>
+        <li><a href="#" class="result1">Load More..</a></li>
+      </ul>
+
+    </div>
+
+  <script>
+    $(document).on("click", ".pager .result1", function (){
+      $(".get_paraphrases_pytorchlight").show();
+    });
+
+    $(document).on("click", ".pager .result", function (){
+      $(".get_paraphrases").show();
+      $(".get_paraphrases_pytorchlight").hide();
+    });
+  </script>
+
+  </body>
+</html>
