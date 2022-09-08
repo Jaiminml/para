@@ -4,11 +4,6 @@ from flask import request
 import requests
 import ast
 
-import logging
-
-app.logger.addHandler(logging.StreamHandler(sys.stdout))
-app.logger.setLevel(logging.ERROR)
-
 app = Flask(__name__)
 
 def get_t5_response(text):
