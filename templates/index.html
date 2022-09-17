@@ -9,53 +9,31 @@
       .container {
         max-width: 1000px;
       }
+      
+      .highlightRed {
+        background-color: #00FFFF; 
+      }
+
     </style>
   </head>
   <body>
     <div class="container">
       <div class="row-sm-5 row-sm-offset-1">
           <h4>Enter a paragraph to ParaPhrase</h4>
-            <form role="form" method='POST' action='/'>
-              <div class="form-group">
-                 <br>
-                <input type="text" name="question" class="form-control" id="url-box" placeholder="Enter a question" style="max-width: 300px;" autofocus required>
-              </div>
-              <button type="submit" class="btn btn-default">ParaPhrase</button>
-            </form>
+          <form method='POST' name="new_form" id="Newquestion_Form">
+            <input type="text" name="question" class="form-control" id="new_form" placeholder="Enter a question" style="max-width: 300px;">
+            <br>
+            <button type="submit" class="btn btn-default NewParaPhrase">ParaPhrase</button>
+          </form>
           <br>
       </div>
 
 
       <div class="row-sm-5 row-sm-offset-1 get_paraphrases">
-          {% if result %}
-          <h4>Paragraph = {{ result[1] }}</h4>
-          <h4>ParaPhrase - 1 = {{ result[0][0] }}</h4>
-          <h4>ParaPhrase - 2 = {{ result[0][1] }}</h4>
-          <h4>ParaPhrase - 3 = {{ result[0][2] }}</h4>
-          <h4>ParaPhrase - 4 = {{ result[0][3] }}</h4>
-          <h4>ParaPhrase - 5 = {{ result[0][4] }}</h4>
-          <h4>ParaPhrase - 5 = {{ result[0][4] }}</h4>
-          <h4>ParaPhrase - 6 = {{ result[0][5] }}</h4>
-          <h4>ParaPhrase - 7 = {{ result[0][6] }}</h4>
-          <h4>ParaPhrase - 8 = {{ result[0][7] }}</h4>
-          <h4>ParaPhrase - 9 = {{ result[0][8] }}</h4>
-          {% endif %}
       </div>
 
       <div class="row-sm-5 row-sm-offset-1 result get_paraphrases_pytorchlight" hidden>
-        {% if result1 %}
-        <h4>ParaPhrase - 10 = {{ result1[0][0] }}</h4>
-        <h4>ParaPhrase - 11 = {{ result1[0][1] }}</h4>
-        <h4>ParaPhrase - 12 = {{ result1[0][2] }}</h4>
-        <h4>ParaPhrase - 13 = {{ result1[0][3] }}</h4>
-        <h4>ParaPhrase - 14 = {{ result1[0][4] }}</h4>
-        <h4>ParaPhrase - 15 = {{ result1[0][5] }}</h4>
-        <h4>ParaPhrase - 16 = {{ result1[0][6] }}</h4>
-        <h4>ParaPhrase - 17 = {{ result1[0][7] }}</h4>
-        <h4>ParaPhrase - 18 = {{ result1[0][8] }}</h4>
-
-        {% endif %}
-    </div>
+      </div>
 
       <ul class="pager">
         <li><a href="#" class="result">Previous</a></li>
@@ -65,6 +43,105 @@
     </div>
 
   <script>
+    let question = $('#new_form').val();
+    var count = 1
+
+    $(document).on("click", "#Newquestion_Form .NewParaPhrase", function (postData){
+      $(".get_paraphrases").empty();
+      $(".get_paraphrases_pytorchlight").empty();
+      $.ajax({
+        data: {
+            question: $('#new_form').val(),
+        },
+        type: 'POST',
+        url: '/' ,
+        success: function(response) {
+          let question = $('#new_form').val();
+          for (const [key, value] of Object.entries(response)) {
+            if (key == 'result'){
+              str = `<h4>Paragraph = ${ value[1] }</h4>`;
+              $(".get_paraphrases").append(str);
+              for (i of value[0]){
+                var div1TextSplitted = i.split(" ");
+                var div2TextSplitted = value[1].split(" ");
+
+                var wordNumber1 = 0;
+                var wordNumber2 = 0;
+
+                var newDiv1Text = "";
+                var newDiv2Text = "";
+
+                while(true){
+                  if(div1TextSplitted[wordNumber1] !== div2TextSplitted[wordNumber2]){
+                    newDiv1Text += "<span class='highlightRed'>" + div1TextSplitted[wordNumber1] + "</span> ";
+                    wordNumber2++;
+                    wordNumber1++;
+                  }
+                  else{
+                    newDiv1Text += div1TextSplitted[wordNumber1] + " ";
+                    wordNumber1++;
+                    wordNumber2++;
+                    continue;
+                  }
+                  
+                  if(div1TextSplitted[wordNumber1 + 1] === undefined || div2TextSplitted[wordNumber2 + 1] === undefined){
+                    break;
+                  }
+                }
+
+                var response = "";
+
+                response += "<h4>Paragraph - " + count + "=" + newDiv1Text + "</h4>"
+
+                $(".get_paraphrases").append(response);
+
+                count += 1;
+              }
+            } else {
+              for (i of value[0]){
+                var div1TextSplitted = i.split(" ");
+                var div2TextSplitted = value[1].split(" ");
+
+                var wordNumber1 = 0;
+                var wordNumber2 = 0;
+
+                var newDiv1Text = "";
+                var newDiv2Text = "";
+
+                while(true){
+                  if(div1TextSplitted[wordNumber1] !== div2TextSplitted[wordNumber2]){
+                    newDiv1Text += "<span class='highlightRed'>" + div1TextSplitted[wordNumber1] + "</span> ";
+                    wordNumber2++;
+                    wordNumber1++;
+                  }
+                  else{
+                    newDiv1Text += div1TextSplitted[wordNumber1] + " ";
+                    wordNumber1++;
+                    wordNumber2++;
+                    continue;
+                  }
+                  
+                  if(div1TextSplitted[wordNumber1 + 1] === undefined || div2TextSplitted[wordNumber2 + 1] === undefined){
+                    break;
+                  }
+                }
+
+                var response = "";
+
+                response += "<h4>Paragraph - " + count + "=" + newDiv1Text + "</h4>"
+
+                $(".get_paraphrases_pytorchlight").append(response);
+
+                count += 1;
+
+              }
+            }
+          }
+        }
+      });
+      postData.preventDefault();
+    });
+
     $(document).on("click", ".pager .result1", function (){
       $(".get_paraphrases_pytorchlight").show();
     });
@@ -73,6 +150,7 @@
       $(".get_paraphrases").show();
       $(".get_paraphrases_pytorchlight").hide();
     });
+
   </script>
 
   </body>

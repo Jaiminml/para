@@ -32,7 +32,11 @@ def index():
         result.append(form['question'])
         result1.append(text2)
         result1.append(form['question'])
-        return render_template("index.html", result=result,result1=result1)
+        final_res = {
+            "result": result,
+            "result1": result1
+        }
+        return final_res
 
     return render_template("index.html")
 
