@@ -63,7 +63,9 @@
               $(".get_paraphrases").append(str);
               for (i of value[0]){
                 var div1TextSplitted = i.split(" ");
+                console.log(div1TextSplitted.length);
                 var div2TextSplitted = value[1].split(" ");
+                console.log(div2TextSplitted.length);
 
                 var wordNumber1 = 0;
                 var wordNumber2 = 0;
@@ -81,7 +83,6 @@
                     newDiv1Text += div1TextSplitted[wordNumber1] + " ";
                     wordNumber1++;
                     wordNumber2++;
-                    continue;
                   }
                   
                   if(div1TextSplitted[wordNumber1 + 1] === undefined || div2TextSplitted[wordNumber2 + 1] === undefined){
@@ -118,7 +119,6 @@
                     newDiv1Text += div1TextSplitted[wordNumber1] + " ";
                     wordNumber1++;
                     wordNumber2++;
-                    continue;
                   }
                   
                   if(div1TextSplitted[wordNumber1 + 1] === undefined || div2TextSplitted[wordNumber2 + 1] === undefined){
