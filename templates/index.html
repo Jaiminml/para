@@ -32,6 +32,8 @@
       <div class="row-sm-5 row-sm-offset-1 get_paraphrases">
       </div>
 
+      <br>
+
       <div class="row-sm-5 row-sm-offset-1 result get_paraphrases_pytorchlight" hidden>
       </div>
 
@@ -61,11 +63,10 @@
             if (key == 'result'){
               str = `<h4>Paragraph = ${ value[1] }</h4>`;
               $(".get_paraphrases").append(str);
+
               for (i of value[0]){
                 var div1TextSplitted = i.split(" ");
-                console.log(div1TextSplitted.length);
                 var div2TextSplitted = value[1].split(" ");
-                console.log(div2TextSplitted.length);
 
                 var wordNumber1 = 0;
                 var wordNumber2 = 0;
@@ -74,66 +75,104 @@
                 var newDiv2Text = "";
 
                 while(true){
-                  if(div1TextSplitted[wordNumber1] !== div2TextSplitted[wordNumber2]){
-                    newDiv1Text += "<span class='highlightRed'>" + div1TextSplitted[wordNumber1] + "</span> ";
-                    wordNumber2++;
-                    wordNumber1++;
-                  }
-                  else{
+                  if (div1TextSplitted[wordNumber1] == '' || div2TextSplitted[wordNumber2] == ''){
                     newDiv1Text += div1TextSplitted[wordNumber1] + " ";
-                    wordNumber1++;
-                    wordNumber2++;
-                  }
-                  
-                  if(div1TextSplitted[wordNumber1 + 1] === undefined || div2TextSplitted[wordNumber2 + 1] === undefined){
-                    break;
-                  }
-                }
+                    if (div1TextSplitted[wordNumber1] == ''){
+                      wordNumber1++;
+                      wordNumber2;
+                    } else {
+                      wordNumber1;
+                      wordNumber2++;
+                    }
+                  } else{
+                    if(div1TextSplitted[wordNumber1] !== div2TextSplitted[wordNumber2]){
+                      newDiv1Text += "<span class='highlightRed'>" + div1TextSplitted[wordNumber1] + "</span> ";
+                      wordNumber2++;
+                      wordNumber1++;
+                    } else if (div1TextSplitted[wordNumber1] === div2TextSplitted[wordNumber2]){
+                      newDiv1Text += div1TextSplitted[wordNumber1] + " ";
+                      wordNumber1++;
+                      wordNumber2++;
+                    }
 
+                    if (div1TextSplitted[wordNumber1 + 1] === undefined){
+                      break;
+                    }else if(div2TextSplitted[wordNumber2 + 1] === undefined && div1TextSplitted[wordNumber1 + 1] === undefined){
+                      break;
+                    } else{
+                      newDiv1Text += div1TextSplitted[wordNumber1] + " ";
+                      wordNumber1++;
+                    }
+                  }
+                };
+
+                if(div1TextSplitted[wordNumber1] !== undefined){
+                  newDiv1Text += div1TextSplitted[wordNumber1] + " ";
+                  wordNumber1++;
+                }
+    
                 var response = "";
 
-                response += "<h4>Paragraph - " + count + "=" + newDiv1Text + "</h4>"
+                response += "<h4>ParaPhrase = " + newDiv1Text + "</h4>"
 
                 $(".get_paraphrases").append(response);
 
-                count += 1;
               }
             } else {
               for (i of value[0]){
-                var div1TextSplitted = i.split(" ");
-                var div2TextSplitted = value[1].split(" ");
+                var res1TextSplitted = i.split(" ");
+                var res2TextSplitted = value[1].split(" ");
 
-                var wordNumber1 = 0;
-                var wordNumber2 = 0;
+                var resNumber1 = 0;
+                var resNumber2 = 0;
 
-                var newDiv1Text = "";
-                var newDiv2Text = "";
+                var newres1Text = "";
+                var newres2Text = "";
 
-                while(true){
-                  if(div1TextSplitted[wordNumber1] !== div2TextSplitted[wordNumber2]){
-                    newDiv1Text += "<span class='highlightRed'>" + div1TextSplitted[wordNumber1] + "</span> ";
-                    wordNumber2++;
-                    wordNumber1++;
+                if (res1TextSplitted[resNumber1] == '' || res2TextSplitted[resNumber2] == ''){
+                  if (res1TextSplitted[resNumber1] == ''){
+                    newres1Text += res1TextSplitted[resNumber1] + " ";
+                    resNumber1++;
+                    resNumber2;
+                  } else {
+                    resNumber1;
+                    resNumber2++;
                   }
-                  else{
-                    newDiv1Text += div1TextSplitted[wordNumber1] + " ";
-                    wordNumber1++;
-                    wordNumber2++;
+                } else{
+                  while(true){
+
+                    if(res1TextSplitted[resNumber1] !== res2TextSplitted[resNumber2]){
+
+                      newres1Text += "<span class='highlightRed'>" + res1TextSplitted[resNumber1] + "</span> ";
+
+                      resNumber1++;
+                      resNumber2++;
+                    }
+                    else{
+
+                      newres1Text += res1TextSplitted[resNumber1] + " ";
+                      resNumber1++;
+                      resNumber2++;
+                    }
+                    
+                    if (res2TextSplitted[resNumber1 + 1] === undefined || res1TextSplitted[resNumber1 + 1] === undefined){
+                      break;
+                    }
+                    
                   }
-                  
-                  if(div1TextSplitted[wordNumber1 + 1] === undefined || div2TextSplitted[wordNumber2 + 1] === undefined){
-                    break;
+
+                  if(res1TextSplitted[resNumber1] !== undefined){
+                    newres1Text += res1TextSplitted[resNumber1] + " ";
+                    resNumber1++;
                   }
+
+                  var response12 = "";
+
+                  response12 += "<h4>ParaPhrase = " + newres1Text + "</h4>"
+
+                  $(".get_paraphrases_pytorchlight").append(response12);
+
                 }
-
-                var response = "";
-
-                response += "<h4>Paragraph - " + count + "=" + newDiv1Text + "</h4>"
-
-                $(".get_paraphrases_pytorchlight").append(response);
-
-                count += 1;
-
               }
             }
           }
