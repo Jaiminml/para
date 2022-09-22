@@ -21,10 +21,7 @@ def index():
         # print(form,'form')
         result = []
         result1 = []
-        #bert_abstract = form['paragraph']
         question = form['question']
-        print(question,'question')
-        #result.append(form['question'])
         text1,text2 = get_t5_response(question)
         text1 = ast.literal_eval(text1)
         text2 = ast.literal_eval(text2)
