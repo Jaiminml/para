@@ -18,7 +18,6 @@ def get_t5_response(text):
 def index():
     if request.method == 'POST':
         form = request.form
-        # print(form,'form')
         result = []
         result1 = []
         question = form['question']
@@ -40,3 +39,4 @@ def index():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
