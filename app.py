@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 def get_t5_response(text):
     r = requests.post(
-        url="https://hf.space/embed/jaimin/Paraphrase/+/api/predict",
+        url="https://hf.space/embed/jaimin/FastT5/+/api/predict",
         json={"data": [text]},
     )
     response = r.json()
